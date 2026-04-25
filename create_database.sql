@@ -1,4 +1,5 @@
 -- Step 1: Creating the databse and students table
+CREATE DATABASE IF NOT EXISTS student_directory;
 USE student_directory;
 
 CREATE TABLE IF NOT EXISTS students (
