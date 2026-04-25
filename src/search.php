@@ -1,6 +1,5 @@
--- Step 5: Overall goal to create a form that allows the user to search for students via major or first (last name starts with M) name, and then display results
-
 <?php
+// Step 5: Overall goal to create a form that allows the user to search for students via major or first (last name starts with M) name, and then display results
 
 require_once 'db_connect.php';
 
