@@ -1,0 +1,348 @@
+/* ============================================
+   Lab Assignment: PHP Student Directory
+   File: styles.css
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+/* ── Reset & Base ── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --navy:       #1a2744;
+    --gold:       #c8960c;
+    --gold-light: #f0c040;
+    --cream:      #fdf8f0;
+    --white:      #ffffff;
+    --gray-100:   #f4f6f9;
+    --gray-300:   #d0d5e0;
+    --gray-500:   #7a8499;
+    --gray-700:   #3d4457;
+    --shadow-sm:  0 1px 4px rgba(26,39,68,.10);
+    --shadow-md:  0 4px 16px rgba(26,39,68,.14);
+    --radius:     8px;
+    --transition: .2s ease;
+}
+
+body {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    background: var(--gray-100);
+    color: var(--gray-700);
+    min-height: 100vh;
+}
+
+/* ── Header ── */
+header {
+    background: var(--navy);
+    padding: 0;
+    box-shadow: var(--shadow-md);
+}
+
+.header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 24px 24px;
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.header-logo {
+    width: 52px;
+    height: 52px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--navy);
+    font-weight: 700;
+}
+
+.header-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    color: var(--white);
+    letter-spacing: .01em;
+}
+
+.header-text p {
+    font-size: .875rem;
+    color: var(--gold-light);
+    margin-top: 2px;
+    font-weight: 300;
+}
+
+/* ── Navigation ── */
+nav {
+    background: rgba(255,255,255,.06);
+    border-top: 1px solid rgba(255,255,255,.10);
+}
+
+.nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    gap: 0;
+}
+
+nav a {
+    display: inline-block;
+    padding: 14px 22px;
+    color: rgba(255,255,255,.75);
+    text-decoration: none;
+    font-size: .9rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    border-bottom: 3px solid transparent;
+    transition: color var(--transition), border-color var(--transition);
+}
+
+nav a:hover,
+nav a.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+}
+
+/* ── Main Container ── */
+main {
+    max-width: 1100px;
+    margin: 36px auto;
+    padding: 0 24px 60px;
+}
+
+/* ── Page Title ── */
+.page-title {
+    margin-bottom: 28px;
+}
+
+.page-title h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--navy);
+}
+
+.page-title p {
+    color: var(--gray-500);
+    font-size: .925rem;
+    margin-top: 4px;
+}
+
+/* ── Card ── */
+.card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+/* ── Table ── */
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .925rem;
+}
+
+thead {
+    background: var(--navy);
+    color: var(--white);
+}
+
+thead th {
+    padding: 14px 18px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: .05em;
+    font-size: .8rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--gray-100);
+    transition: background var(--transition);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: #eef1f8;
+}
+
+tbody td {
+    padding: 13px 18px;
+    color: var(--gray-700);
+}
+
+/* Classification badge */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: .775rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+}
+
+.badge-freshman  { background: #e8f4fd; color: #1565c0; }
+.badge-sophomore { background: #e8f5e9; color: #2e7d32; }
+.badge-junior    { background: #fff8e1; color: #f57f17; }
+.badge-senior    { background: #fce4ec; color: #c62828; }
+
+/* Record count */
+.record-count {
+    padding: 12px 18px;
+    font-size: .85rem;
+    color: var(--gray-500);
+    border-top: 1px solid var(--gray-100);
+    background: var(--gray-100);
+}
+
+/* ── Search Form ── */
+.search-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 28px 32px;
+    margin-bottom: 28px;
+}
+
+.search-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin-bottom: 18px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 180px;
+}
+
+.form-group label {
+    font-size: .825rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: .925rem;
+    color: var(--gray-700);
+    background: var(--white);
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(26,39,68,.12);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: .925rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--navy);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: #243560;
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    border: 1.5px solid var(--gray-300);
+}
+
+.btn-secondary:hover {
+    background: var(--gray-300);
+}
+
+/* ── Alerts ── */
+.alert {
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    font-size: .925rem;
+    margin-bottom: 20px;
+}
+
+.alert-info {
+    background: #e8f4fd;
+    color: #1565c0;
+    border-left: 4px solid #1565c0;
+}
+
+.alert-warning {
+    background: #fff8e1;
+    color: #f57f17;
+    border-left: 4px solid var(--gold);
+}
+
+/* ── Footer ── */
+footer {
+    text-align: center;
+    padding: 24px;
+    font-size: .825rem;
+    color: var(--gray-500);
+    border-top: 1px solid var(--gray-300);
+    background: var(--white);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .header-inner { flex-direction: column; align-items: flex-start; }
+    .form-row     { flex-direction: column; }
+    .form-group   { min-width: 100%; }
+    .btn          { width: 100%; justify-content: center; }
+    thead th, tbody td { padding: 10px 12px; }
+}

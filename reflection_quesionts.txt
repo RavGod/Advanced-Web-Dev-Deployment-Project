@@ -1,0 +1,20 @@
+Q: What is the purpose of a primary key in a relational database table?
+
+A: It acts as a way to be sure all rows are unique to one another, and to easily identify them.
+
+
+Q: Why is ORDER BY useful when displaying records to a user?
+
+A: Order by allows users to view data in a specific orthodox way which makes sense to a person. This
+can be useful when trying to see data with certain perspectives in mind.
+
+
+Q: Why is this safer than directly building the SQL string with user input?
+$statement = $pdo->prepare("SELECT * FROM students WHERE major = :major");
+$statement->bindValue(':major', $major);
+$statement->execute();
+
+A: By using prepared statements, we as developers provide services which are queried by the client rather than the
+server which is actually safer a lot of times, since it avoids interceptions and insidious attacks called SQL injection
+which could otherwise come from someone outside the host (at that point you could only manipulate the query if you had root
+access or something but that's way harder and a whole other level of concern at that point).
