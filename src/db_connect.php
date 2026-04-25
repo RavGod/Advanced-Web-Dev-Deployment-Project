@@ -1,11 +1,11 @@
 <?php
 function getConnection()
 {
-    $connectionString  = "mysql:host=localhost;dbname=student_directory";
+    $connectionString  = "mysql:host=db;dbname=student_directory";
     $connectionString .= ";charset=utf8mb4";
 
     $user = "root";
-    $pass = "";
+    $pass = "root";
 
     try {
         $pdo = new PDO($connectionString, $user, $pass);
