@@ -4,12 +4,10 @@ require_once __DIR__ . '/db_connect.php';
 
 $pdo = getConnection();
 
-echo $pdo->query("SELECT current_database()")->fetchColumn();
-
 $pdo->exec("
     CREATE TABLE IF NOT EXISTS migrations (
         id SERIAL PRIMARY KEY,
-        migration VARCHAR(255) UNIQUE,
+        migration VARCHAR(255) UNIQUE NOT NULL,
         run_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 ");
@@ -17,46 +15,49 @@ $pdo->exec("
 $applied = $pdo->query("SELECT migration FROM migrations")
                ->fetchAll(PDO::FETCH_COLUMN);
 
-$files = glob(__DIR__ . "/migrations/*.{sql,php}", GLOB_BRACE);
+$files = glob(__DIR__ . "/migrations/*.php");
 sort($files);
 
 foreach ($files as $file) {
 
     $name = basename($file);
 
-    if (in_array($name, $applied)) {
+    if (in_array($name, $applied, true)) {
         continue;
+    }
+
+    echo "Running: $name\n";
+
+    $migration = require $file;
+
+    if (!is_callable($migration)) {
+        throw new Exception("Invalid migration file: $name");
     }
 
     try {
         $pdo->beginTransaction();
 
-        $ext = pathinfo($file, PATHINFO_EXTENSION); // Literally how it's able to tell if it's php or sql
+        $migration($pdo);
 
-        if ($ext === 'sql') {
-            $sql = file_get_contents($file);
-            $pdo->exec($sql);
-        }
+        $stmt = $pdo->prepare("
+            INSERT INTO migrations (migration)
+            VALUES (:migration)
+        ");
 
-        if ($ext === 'php') {
-            $migration = require $file;
-
-            if (is_callable($migration)) {
-                $migration($pdo);
-            } else {
-                throw new Exception("Invalid migration: $name");
-            }
-        }
-
-        $stmt = $pdo->prepare("INSERT INTO migrations (migration) VALUES (?)");
-        $stmt->execute([$name]);
+        $stmt->execute([
+            ':migration' => $name
+        ]);
 
         $pdo->commit();
 
+        echo "Done: $name\n";
+
     } catch (Exception $e) {
         $pdo->rollBack();
+
         echo "Failed: $name\n";
         echo $e->getMessage() . "\n";
+
         exit(1);
     }
 }

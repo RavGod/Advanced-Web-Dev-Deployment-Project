@@ -12,19 +12,17 @@ return function ($pdo) {
         INSERT INTO students (
             first_name, last_name, email, password_hash, major, classification
         )
-        VALUES (
-            :first_name, :last_name, :email, :password_hash, :major, :classification
-        )
+        VALUES (?, ?, ?, ?, ?, ?)
     ");
 
     foreach ($students as $s) {
         $stmt->execute([
-            ':first_name' => $s[0],
-            ':last_name' => $s[1],
-            ':email' => $s[2],
-            ':password_hash' => password_hash($s[3], PASSWORD_BCRYPT),
-            ':major' => $s[4],
-            ':classification' => $s[5],
+            $s[0],
+            $s[1],
+            $s[2],
+            password_hash($s[3], PASSWORD_BCRYPT),
+            $s[4],
+            $s[5],
         ]);
     }
 };
