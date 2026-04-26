@@ -1,7 +1,15 @@
 FROM php:8.2-apache
 
-# Install PDO MySQL extension
-RUN docker-php-ext-install pdo pdo_pgsql pdo_mysql
+# Installation and boot of all dependencies (psql does not have built-in PDO connection like MySQL does)
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    default-mysql-client \
+    && docker-php-ext-install \
+        pdo \
+        pdo_pgsql \
+        pdo_mysql \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy project files into Apache directory
 COPY src/ /var/www/html/
