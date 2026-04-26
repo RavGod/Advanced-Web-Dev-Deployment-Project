@@ -3,13 +3,14 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require_once 'db_connect.php';
+require_once 'auth.php';
 
 session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     // Redirect to login page
-    header("Location: login.php");
+    header("Location: login_page.php");
     exit;
 }
 
