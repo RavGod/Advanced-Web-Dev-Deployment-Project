@@ -1,4 +1,5 @@
 <?php
+echo "Running: $name\n";
 
 return function ($pdo) {
 
