@@ -4,6 +4,8 @@ require_once __DIR__ . '/db_connect.php';
 
 $pdo = getConnection();
 
+echo $pdo->query("SELECT current_database()")->fetchColumn();
+
 $pdo->exec("
     CREATE TABLE IF NOT EXISTS migrations (
         id SERIAL PRIMARY KEY,
