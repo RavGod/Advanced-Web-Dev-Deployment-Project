@@ -1,8 +1,6 @@
 <?php
 
-    $dsn = getenv('DATABASE_URL');
-
-    $pdo = new PDO($dsn);
+return function ($pdo) {
 
     $students = [
         ['Jet', 'Longview', 'jet@school.com', 'password123', 'Linguistics', 'Sophomore'],
@@ -27,4 +25,5 @@
         ]);
     }
 
-echo "Seeding complete\n";
+    echo "Seeding complete\n";
+};
