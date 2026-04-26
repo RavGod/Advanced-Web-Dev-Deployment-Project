@@ -4,6 +4,15 @@ error_reporting(E_ALL);
 
 require_once 'db_connect.php';
 
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    // Redirect to login page
+    header("Location: login.php");
+    exit;
+}
+
 // Step 4: Retrieve all students, ordered in reverse alphabetical order
 $pdo  = getConnection();
 $stmt = $pdo->query('SELECT * FROM students ORDER BY last_name ASC');
