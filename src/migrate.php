@@ -1,27 +1,52 @@
 <?php
 
-require_once "db_connect.php";
+require_once __DIR__ . '/db.php';
 
-if (getenv("APP_ENV") !== "dev") {
-    die("Disabled in production");
+$db = db();
+
+$db->exec("
+    CREATE TABLE IF NOT EXISTS migrations (
+        id SERIAL PRIMARY KEY,
+        migration VARCHAR(255) UNIQUE,
+        run_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+");
+
+$applied = $db->query("SELECT migration FROM migrations")
+              ->fetchAll(PDO::FETCH_COLUMN);
+
+$files = glob(__DIR__ . "/migrations/*.php");
+sort($files);
+
+foreach ($files as $file) {
+    $name = basename($file);
+
+    if (in_array($name, $applied)) {
+        continue;
+    }
+
+    echo "Running migration: $name\n";
+
+    $migration = require $file;
+
+    try {
+        $db->beginTransaction();
+
+        $migration($db);
+
+        $stmt = $db->prepare("INSERT INTO migrations (migration) VALUES (?)");
+        $stmt->execute([$name]);
+
+        $db->commit();
+
+        echo "Done: $name\n";
+
+    } catch (Exception $e) {
+        $db->rollBack();
+        echo "Failed: $name\n";
+        echo $e->getMessage() . "\n";
+        exit(1);
+    }
 }
 
-$pdo = getConnection();
-
-try {
-    $pdo->exec("
-        CREATE TABLE IF NOT EXISTS students (
-            student_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-            first_name VARCHAR(100) NOT NULL,
-            last_name VARCHAR(100) NOT NULL,
-            email VARCHAR(255) NOT NULL,
-            major VARCHAR(100),
-            classification VARCHAR(50)
-        );
-    ");
-
-    echo "Migration complete: students table ready.";
-
-} catch (PDOException $e) {
-    echo "Migration failed: " . $e->getMessage();
-}
+echo "All migrations complete.\n";

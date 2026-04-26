@@ -1,14 +1,3 @@
--- Create table
-CREATE TABLE IF NOT EXISTS students (
-    student_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    major VARCHAR(100),
-    classification VARCHAR(50)
-);
-
--- Step 2: Inserting 8 students objects into the table
 INSERT INTO students(first_name, last_name, email, major, classification)
 VALUES ('Jet', 'Longview',
         'T587229004_Greg_L@gmail.com', 'Linguistics', 'Sophomore');
