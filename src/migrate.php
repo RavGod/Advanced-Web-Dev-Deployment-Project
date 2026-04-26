@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/db_connect.php';
 
-$db = getConnection();
+$pdo = getConnection();
 
-$db->exec("
+$pdo->exec("
     CREATE TABLE IF NOT EXISTS migrations (
         id SERIAL PRIMARY KEY,
         migration VARCHAR(255) UNIQUE,
@@ -12,37 +12,47 @@ $db->exec("
     )
 ");
 
-$applied = $db->query("SELECT migration FROM migrations")
-              ->fetchAll(PDO::FETCH_COLUMN);
+$applied = $pdo->query("SELECT migration FROM migrations")
+               ->fetchAll(PDO::FETCH_COLUMN);
 
-$files = glob(__DIR__ . "/migrations/*.php");
+$files = glob(__DIR__ . "/migrations/*.{sql,php}", GLOB_BRACE);
 sort($files);
 
 foreach ($files as $file) {
+
     $name = basename($file);
 
     if (in_array($name, $applied)) {
         continue;
     }
 
-    echo "Running migration: $name\n";
-
-    $migration = require $file;
-
     try {
-        $db->beginTransaction();
+        $pdo->beginTransaction();
 
-        $migration($db);
+        $ext = pathinfo($file, PATHINFO_EXTENSION); // Literally how it's able to tell if it's php or sql
 
-        $stmt = $db->prepare("INSERT INTO migrations (migration) VALUES (?)");
+        if ($ext === 'sql') {
+            $sql = file_get_contents($file);
+            $pdo->exec($sql);
+        }
+
+        if ($ext === 'php') {
+            $migration = require $file;
+
+            if (is_callable($migration)) {
+                $migration($pdo);
+            } else {
+                throw new Exception("Invalid migration: $name");
+            }
+        }
+
+        $stmt = $pdo->prepare("INSERT INTO migrations (migration) VALUES (?)");
         $stmt->execute([$name]);
 
-        $db->commit();
-
-        echo "Done: $name\n";
+        $pdo->commit();
 
     } catch (Exception $e) {
-        $db->rollBack();
+        $pdo->rollBack();
         echo "Failed: $name\n";
         echo $e->getMessage() . "\n";
         exit(1);
