@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/db.php';
 
-$db = db();
+$db = getConnection();
 
 $db->exec("
     CREATE TABLE IF NOT EXISTS migrations (
