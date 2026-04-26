@@ -1,9 +1,6 @@
--- Step 1: Creating the databse and students table
-CREATE DATABASE IF NOT EXISTS student_directory;
-USE student_directory;
-
+-- Create table
 CREATE TABLE IF NOT EXISTS students (
-    student_id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL,
