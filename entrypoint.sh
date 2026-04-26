@@ -1,16 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "Waiting for database..."
 
-# Wait until Postgres is ready
 until php -r "
-try {
-    new PDO(getenv('DATABASE_URL'));
-    echo 'Connected!';
-} catch (Exception \$e) {
-    exit(1);
-}
-"; do
+require '/var/www/html/db_connect.php';
+getConnection();
+echo 'connected';
+" 2>/dev/null
+do
   echo "Database not ready yet... retrying in 2 seconds"
   sleep 2
 done
