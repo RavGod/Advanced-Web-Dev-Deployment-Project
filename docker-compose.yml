@@ -6,19 +6,4 @@ services:
     volumes:
       - ./src:/var/www/html
     environment:
-      DATABASE_URL: postgres://postgres:root@db:5432/student_directory
-
-  db:
-    image: postgres:15
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: student_directory
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
-
-volumes:
-  db_data:
+      DATABASE_URL: postgresql://student_directory_user:cBw13xAiVUAkuy1MS07aONJhCHGzb648@dpg-d7mk3raqqhas73fdqs10-a.oregon-postgres.render.com/student_directory?sslmode=require

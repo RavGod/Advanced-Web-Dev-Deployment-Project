@@ -15,3 +15,9 @@ COPY src/ /var/www/html/
 
 # Enable Apache mod_rewrite (optional but good practice)
 RUN a2enmod rewrite
+
+# Making sure to actually run 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]

@@ -16,7 +16,7 @@ function getConnection()
     $pass = $db["pass"];
     $name = ltrim($db["path"], "/");
 
-    $dsn = "pgsql:host=$host;port=$port;dbname=$name";
+    $dsn = "pgsql:host=$host;port=$port;dbname=$name;sslmode=require";
 
     try {
         $pdo = new PDO($dsn, $user, $pass, [
